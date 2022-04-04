@@ -1,21 +1,23 @@
 #include "main.h"
+void driveForward(int dist)
+{
+
+}
 
 void redLeftCorner() {
-  driveForward(500);
-  turnLeft(500);
-
+  translate(-500, 100);
 }
 
 void blueLeftCorner() {
-
+  translate(0, 0);
 }
 
 void redRightCorner() {
-
+  translate(0, 0);
 }
 
 void blueRightCorner() {
-
+  translate(0, 0);
 }
 
 void autonomous() {

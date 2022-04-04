@@ -24,4 +24,4 @@ void initialize() {
   intakeLeft.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 }
 
-void disabled() []
+void disabled(){}

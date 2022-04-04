@@ -1,6 +1,6 @@
 #include "main.h"
 
-pros::ADIPotentiator anglerPot('A')
+//pros::ADIPotentiator anglerPot('A');
 
 //help func
 void setAngler(int power) {
