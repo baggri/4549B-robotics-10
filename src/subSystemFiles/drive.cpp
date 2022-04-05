@@ -1,5 +1,7 @@
 #include "main.h"
 
+pros::ADIGyro gyro('B', 0.91);
+
 void setDrive(int left, int right) {
   driveLeftBack = left;
   driveLeftFront = left;
@@ -12,6 +14,13 @@ void resetDriveEncoders() {
   driveLeftFront.tare_position();
   driveRightBack.tare_position();
   driveRightFront.tare_position();
+}
+
+double avgDriveEncoderValue() {
+  return((fabs(driveLeftBack.get_position()) + 
+  fabs(driveLeftFront.get_position()) + 
+  fabs(driveRightBack.get_position()) + 
+  fabs(driveRightFront.get_position())) / 4);
 }
 
 void setDriveMotors() {
@@ -34,15 +43,26 @@ void translate(int units, int voltage) {
   int direction = abs(units) / units;
 
   resetDriveEncoders();
-  driveLeftBack.tare_position();
 
-  while(fabs(driveLeftBack.get_position()) < abs(units)) {
-    setDrive(voltage, voltage);
+  gyro.reset();
+
+  while(avgDriveEncoderValue() < abs(units)) {
+    setDrive(voltage * direction + gyro.get_value(), voltage * direction - gyro.get_value());
     pros::delay(10);
   }
 
-  setDrive(-10, -10);
+  setDrive(-10 * direction , -10 * direction);
   pros::delay(50);
 
   setDrive(0, 0);
+}
+
+void rotate(int degrees, int voltage) {
+/*   int direction = abs(degrees) / degrees;
+  
+  gyro.reset();
+
+  while(){
+
+  } */
 }

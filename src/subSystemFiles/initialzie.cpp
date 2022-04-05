@@ -22,6 +22,9 @@ void initialize() {
   lift.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
   intakeRight.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
   intakeLeft.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+
+  pros::ADIGyro gyro('B', 0.91);
+  pros::delay(2000);
 }
 
-void disabled(){}
+void disabled() {}

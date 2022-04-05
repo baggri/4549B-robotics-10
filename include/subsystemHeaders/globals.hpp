@@ -10,3 +10,5 @@ extern pros:: Motor driveRightBack;
 extern pros:: Motor driveRightFront;
 
 extern pros::Controller controller;
+
+extern pros::ADIGyro gyro;
