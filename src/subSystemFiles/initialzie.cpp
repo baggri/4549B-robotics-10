@@ -12,7 +12,13 @@ void on_center_button() {
 
 void initialize() {
   pros::lcd::initialize();
-  pros::lcd::set_text(0, "Hello PROS user!");
+  pros::lcd::set_text(0, "this is ggan bu.................");
+  pros::lcd::set_text(1, "SEXYYYY");
+  pros::lcd::set_text(2, "KillingBurf");
+  pros::lcd::set_text(3, "TFT... we gonna drop the villian duh doo duh duh");
+  pros::lcd::set_text(4, "too bees ....");
+  pros::lcd::set_text(5, "in PBEEEE");
+
 
   driveLeftBack.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
   driveRightBack.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);

@@ -6,7 +6,6 @@ void opcontrol() {
     setIntakeMotors();
     setLiftMotor();
     setAnglerMotor();
-    
     pros:: delay(10);
   }
 }

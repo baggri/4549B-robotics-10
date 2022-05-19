@@ -8,6 +8,7 @@ extern pros:: Motor driveLeftBack;
 extern pros:: Motor driveLeftFront;
 extern pros:: Motor driveRightBack;
 extern pros:: Motor driveRightFront;
+extern pros:: Motor strafe;
 
 extern pros::Controller controller;
 

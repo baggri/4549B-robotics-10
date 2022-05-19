@@ -33,13 +33,15 @@
  * For instance, you can do `4_mtr = 50` to set motor 4's target velocity to 50
  */
 #define PROS_USE_LITERALS
+#define OKAPI_USE_LITERALS
 
 #include "api.h"
 
 /**
  * You should add more #includes here
  */
-//#include "okapi/api.hpp"
+#include "okapi/api.hpp"
+//#include <include/okapi/api/chassis/controller/chassisController.hpp>
 //#include "pros/api_legacy.h"
 
 /**
@@ -50,9 +52,9 @@
  * concurrently! The okapi namespace will export all symbols inside the pros
  * namespace.
  */
-// using namespace pros;
+using namespace pros;
 // using namespace pros::literals;
-// using namespace okapi;
+using namespace okapi;
 
 /**
  * Prototypes for the competition control tasks are redefined here to ensure
@@ -77,6 +79,7 @@ void opcontrol(void);
 #include "subsystemHeaders/globals.hpp"
 #include "subsystemHeaders/intake.hpp"
 #include "subsystemHeaders/angler.hpp"
+#include "subsystemHeaders/strafe.hpp"
 //#include <iostream>
 #endif
 

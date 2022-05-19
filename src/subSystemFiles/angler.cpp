@@ -1,6 +1,6 @@
 #include "main.h"
 
-pros::ADIPotentiator anglerPot('A');
+pros::ADIPotentiometer anglerPot('A');
 
 //help func
 void setAngler(int power) {
@@ -9,7 +9,13 @@ void setAngler(int power) {
 
 //driver cont func
 void setAnglerMotor() {
-    int anglerPower = 127 * (controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP) - controller.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN));
-    setAngler(anglerPower);
+  int anglerPower = 0;
 
+  if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+    anglerPower = 127;
+  } else if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+    anglerPower = 33;
+  }
+
+  setAngler(anglerPower);
 }

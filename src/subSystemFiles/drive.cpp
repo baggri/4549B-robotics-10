@@ -1,44 +1,64 @@
 #include "main.h"
 
-pros::ADIGyro gyro('B', 0.91);
+pros::ADIGyro gyro('B', 0.99);
 
-void setDrive(int left, int right) {
-  driveLeftBack = left;
-  driveLeftFront = left;
-  driveRightBack = right;
-  driveRightFront = right;
+void setDrive(int topRight, int topLeft, int bottomLeft, int bottomRight) {
+  driveTopRight = topRight;
+  driveTopLeft = topLeft;
+  driveBottomLeft = bottomLeft;
+  driveBottomRight = bottomRight;
 }
 
 void resetDriveEncoders() {
-  driveLeftBack.tare_position();
-  driveLeftFront.tare_position();
-  driveRightBack.tare_position();
-  driveRightFront.tare_position();
+  driveTopRight.tare_position();
+  driveTopLeft.tare_position();
+  driveBottomLeft.tare_position();
+  driveBottomRight.tare_position();
+}
+
+void DriveDirection () {
+  
 }
 
 double avgDriveEncoderValue() {
-  return((fabs(driveLeftBack.get_position()) + 
-  fabs(driveLeftFront.get_position()) + 
-  fabs(driveRightBack.get_position()) + 
-  fabs(driveRightFront.get_position())) / 4);
+  return((fabs(driveTopRight.get_position()) + 
+  fabs(driveTopLeft.get_position()) + 
+  fabs(driveBottomLeft.get_position()) + 
+  fabs(driveBottomRight.get_position())) / 4);
 }
+
+
+//okapi
+std::shared_ptr<ChassisController> chassis =
+  ChassisControllerBuilder()
+    .withMotors(11, 12, 13, 14)
+    // Green gearset, 4 in wheel diam, 11.5 in wheel track
+    .withDimensions(AbstractMotor::gearset::green, {{4_in, 11.5_in}, imev5GreenTPR})
+    .build();
 
 void setDriveMotors() {
-  int leftJoystick = controller.get_analog(pros:: E_CONTROLLER_ANALOG_LEFT_Y);
-  int rightJoystick = controller.get_analog(pros:: E_CONTROLLER_ANALOG_RIGHT_Y);
+  int LeftYJoystick = controller.get_analog(pros:: E_CONTROLLER_ANALOG_LEFT_Y);
+  int LeftXJoystick = controller.get_analog(pros:: E_CONTROLLER_ANALOG_LEFT_X);
+  int RightXJoystick = controller.get_analog(pros:: E_CONTROLLER_ANALOG_RIGHT_X);
 
-  if (abs(leftJoystick) < 10) {
-    leftJoystick = 0;
+  if (abs(LeftXJoystick) <= 10) {
+    LeftXJoystick = 0;
   }
 
-  if (abs(rightJoystick) < 10) {
-    rightJoystick = 0;
+  if (abs(LeftYJoystick) <= 10) {
+    LeftYJoystick = 0;
   }
 
-  setDrive(leftJoystick, rightJoystick);
+  if abs(RightXJoystick) <= 10) {
+    RightXJoystick = 0
+  }
+
+  
+
+  setDrive(TopRight, TopLeft, BottomRight, BottomLeft);
 
 }
-
+//autonomous
 void translate(int units, int voltage) {
   int direction = abs(units) / units;
 
@@ -58,11 +78,28 @@ void translate(int units, int voltage) {
 }
 
 void rotate(int degrees, int voltage) {
-/*   int direction = abs(degrees) / degrees;
+  int direction = abs(degrees) / degrees;
   
   gyro.reset();
 
-  while(){
-
-  } */
+  while(fabs(gyro.get_value()) < abs(degrees * 10)) {
+    setDrive(-voltage * direction, voltage * direction);
+    pros::delay(10);
+  }
+//letting it lose momentum
+  pros::delay(100);
+//correcting if wrong
+  if(fabs(gyro.get_value()) > abs(degrees * 10) - 50) {
+      setDrive(-voltage * direction, voltage * direction);
+      while(fabs(gyro.get_value()) > abs(degrees * 10)) {
+        pros::delay(10);
+      }
+  } else if (fabs(gyro.get_value()) > abs(degrees * 10)) {
+    setDrive(0.5 *  voltage * direction, 0.5 * -voltage * direction);
+      while(fabs(gyro.get_value()) > abs(degrees * 10)) {
+        pros::delay(10);
+      }
+  }
+  //reset drive
+  setDrive(0,0); 
 }
